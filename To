@@ -1,0 +1,73 @@
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ExcelDataReader {
+
+    public static void main(String[] args) {
+        try {
+            // Load the Excel file
+            FileInputStream fileInputStream = new FileInputStream("your_file.xlsx");
+            Workbook workbook = new XSSFWorkbook(fileInputStream);
+
+            // Assuming the data is in the first sheet
+            Sheet sheet = workbook.getSheetAt(0);
+
+            // Get the header row to determine column indices
+            Row headerRow = sheet.getRow(1);
+
+            // Create a HashMap to store column indices based on column names
+            Map<String, Integer> columnIndexMap = new HashMap<>();
+
+            // Populate the HashMap with column indices
+            for (int cellIndex = 0; cellIndex < headerRow.getPhysicalNumberOfCells(); cellIndex++) {
+                Cell cell = headerRow.getCell(cellIndex, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                columnIndexMap.put(cell.toString(), cellIndex);
+            }
+
+            // Get the column index for "England"
+            Integer columnIndexEngland = columnIndexMap.get("England");
+
+            // Check if "England" column is found
+            if (columnIndexEngland != null) {
+                // Initialize a data structure to store key-value pairs
+                StringBuilder result = new StringBuilder();
+
+                // Loop through rows starting from the 6th row
+                for (int rowIndex = 5; rowIndex < sheet.getPhysicalNumberOfRows(); rowIndex++) {
+                    Row row = sheet.getRow(rowIndex);
+                    if (row != null) {
+                        // Extract data from columns 4 and the dynamically determined England column
+                        Cell cell4 = row.getCell(3, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                        Cell cellEngland = row.getCell(columnIndexEngland, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+
+                        // Convert data to string and store in key-value pair
+                        String value4 = cell4.toString();
+                        String valueEngland = cellEngland.toString();
+
+                        result.append("Row ").append(rowIndex + 1).append(": ")
+                                .append("column_4=").append(value4).append(", ")
+                                .append("column_England=").append(valueEngland)
+                                .append(System.lineSeparator());
+                    }
+                }
+
+                // Print the key-value pairs
+                System.out.println(result.toString());
+            } else {
+                System.out.println("Column 'England' not found in the header row.");
+            }
+
+            // Close the workbook and file stream
+            workbook.close();
+            fileInputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

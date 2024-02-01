@@ -1,0 +1,105 @@
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+
+public class ExcelReader {
+    public static void main(String[] args) {
+        try {
+            FileInputStream file = new FileInputStream("your_excel_file.xlsx");
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+
+            // Specify the sheet name you want to read
+            String desiredSheetName = "your_sheet_name";
+            Sheet sheet = workbook.getSheet(desiredSheetName);
+
+            if (sheet == null) {
+                System.out.println("Sheet '" + desiredSheetName + "' not found.");
+                return;
+            }
+
+            Iterator<Row> rowIterator = sheet.iterator();
+
+            // Skip rows until the first non-empty row
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                if (row.getCell(0) != null && !row.getCell(0).toString().isEmpty()) {
+                    break;
+                }
+            }
+
+            // Map to store key-value pairs
+            Map<Object, Object> dataMap = new HashMap<>();
+
+            // Get header row
+            Row headerRow = rowIterator.next();
+
+            // Find column indexes for "Germany" and "England"
+            int germanyColumnIndex = findColumnIndex(headerRow, "Germany");
+            int englandColumnIndex = findColumnIndex(headerRow, "England");
+
+            if (germanyColumnIndex == -1 || englandColumnIndex == -1) {
+                System.out.println("Column 'Germany' or 'England' not found in the header row.");
+                return;
+            }
+
+            // Process each row
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+
+                // Get data from column 4 (Germany) and column 8 (England)
+                Object key = getCellValue(row.getCell(germanyColumnIndex));
+                Object value = getCellValue(row.getCell(englandColumnIndex));
+
+                // Store in the map
+                dataMap.put(key, value);
+            }
+
+            // Print the key-value pairs
+            for (Map.Entry<Object, Object> entry : dataMap.entrySet()) {
+                System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+            }
+
+            workbook.close();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int findColumnIndex(Row headerRow, String columnName) {
+        Iterator<Cell> cellIterator = headerRow.cellIterator();
+        int columnIndex = -1;
+
+        while (cellIterator.hasNext()) {
+            Cell cell = cellIterator.next();
+            if (cell.getStringCellValue().equalsIgnoreCase(columnName)) {
+                columnIndex = cell.getColumnIndex();
+                break;
+            }
+        }
+
+        return columnIndex;
+    }
+
+    private static Object getCellValue(Cell cell) {
+        if (cell == null) {
+            return "";
+        }
+
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                return cell.getNumericCellValue();
+            default:
+                return "";
+        }
+    }
+}

@@ -1,0 +1,77 @@
+import org.apache.poi.ss.usermodel.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class ExcelDataReader {
+    private String[][] excelData;
+
+    public ExcelDataReader(String[][] excelData) {
+        this.excelData = excelData;
+    }
+
+    public Map<String, String> readDataFromExcel(String filePath, String sheetName) throws IOException {
+        Map<String, String> dataMap = new LinkedHashMap<>();
+
+        FileInputStream inputStream = new FileInputStream(new File(filePath));
+        Workbook workbook = WorkbookFactory.create(inputStream);
+        Sheet sheet = workbook.getSheet(sheetName);
+
+        // Find column index for 'England'
+        int valueColumnIndex = findColumnIndex(sheet.getRow(0), "England");
+
+        // Assuming data starts from the 4th row
+        for (int i = 3; i <= sheet.getLastRowNum(); i++) {
+            Row row = sheet.getRow(i);
+            String key = getCellValue(row.getCell(3)); // Assuming key is always in column 4
+            String value = getCellValue(row.getCell(valueColumnIndex));
+
+            // Add the key-value pair to the LinkedHashMap
+            dataMap.put(key, value);
+        }
+
+        workbook.close();
+        inputStream.close();
+
+        return dataMap;
+    }
+
+    private int findColumnIndex(Row headerRow, String headerValue) {
+        for (int i = 0; i < headerRow.getLastCellNum(); i++) {
+            String cellValue = getCellValue(headerRow.getCell(i));
+            if (cellValue != null && cellValue.equalsIgnoreCase(headerValue)) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("Header value not found: " + headerValue);
+    }
+
+    private String getCellValue(Cell cell) {
+        if (cell == null) {
+            return null;
+        }
+
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
+            default:
+                return null;
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        String filePath = "path_to_your_excel_file.xlsx";
+        String sheetName = "your_sheet_name";
+
+        ExcelDataReader excelReader = new ExcelDataReader(null);
+        Map<String, String> dataMap = excelReader.readDataFromExcel(filePath, sheetName);
+
+        // Print the LinkedHashMap
+        dataMap.forEach((key, value) -> System.out.println(key + ": " + value));
+    }
+}

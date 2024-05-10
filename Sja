@@ -1,0 +1,31 @@
+import { Builder, WebDriver } from 'selenium-webdriver';
+import chrome from 'selenium-webdriver/chrome';
+
+async function runCopiedChrome() {
+    // Path to the copied Chrome profile directory
+    const chromeProfilePath = "/path/to/copied/chrome/profile";
+
+    // Set Chrome profile options
+    const options = new chrome.Options().addArguments("user-data-dir=" + chromeProfilePath);
+
+    // Initialize Chrome driver with the specified options
+    const driver: WebDriver = await new Builder()
+        .forBrowser('chrome')
+        .setChromeOptions(options)
+        .build();
+
+    try {
+        // Now you can use the 'driver' object to interact with the copied Chrome instance
+
+        // Example: Open a website
+        await driver.get("https://www.example.com");
+
+        // Example: Close the browser
+        await driver.quit();
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+}
+
+// Call the function to run the copied Chrome instance
+runCopiedChrome();

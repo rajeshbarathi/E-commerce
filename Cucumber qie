@@ -1,0 +1,49 @@
+Sure, here are some scenario-based questions related to automating eCommerce websites using Java, Selenium, and Cucumber:
+
+1. **Scenario**: As a user, I want to search for a specific product on the eCommerce website.
+   - **Question**: Can you describe how you would automate the search functionality using Selenium and Cucumber? How would you handle various search scenarios, such as exact match, partial match, and no match?
+
+2. **Scenario**: As a user, I want to add a product to my shopping cart on the eCommerce website.
+   - **Question**: Walk me through the steps you would take to automate adding a product to the shopping cart using Selenium and Cucumber. How would you verify that the product is successfully added?
+
+3. **Scenario**: As a user, I want to proceed to checkout and complete the purchase on the eCommerce website.
+   - **Question**: How would you automate the checkout process using Selenium and Cucumber? Can you explain how you would handle entering shipping details, payment information, and completing the purchase?
+
+4. **Scenario**: As a user, I want to verify the functionality of the wishlist feature on the eCommerce website.
+   - **Question**: What approach would you take to automate testing the wishlist feature using Selenium and Cucumber? How would you verify that a product is successfully added to the wishlist and can be viewed later?
+
+5. **Scenario**: As a user, I want to navigate through different categories and subcategories to find a product on the eCommerce website.
+   - **Question**: Describe how you would automate navigating through categories and subcategories using Selenium and Cucumber. How would you handle verifying that the correct product is displayed based on the chosen category?
+
+6. **Scenario**: As a user, I want to verify the sorting functionality on the product listing page of the eCommerce website.
+   - **Question**: Can you explain your approach to automating the sorting functionality using Selenium and Cucumber? How would you verify that products are displayed in the correct order based on the chosen sorting option?
+
+7. **Scenario**: As a user, I want to verify the functionality of the product comparison feature on the eCommerce website.
+   - **Question**: How would you automate testing the product comparison feature using Selenium and Cucumber? What criteria would you use to compare products, and how would you verify the results?
+
+These questions cover a range of scenarios commonly encountered when automating eCommerce websites and should help gauge the candidate's understanding of Selenium, Cucumber, and their ability to handle various testing scenarios.
+
+Certainly! Here are example answers to the scenario-based questions:
+
+1. **Search Functionality**:
+   - **Answer**: To automate the search functionality, I would use Selenium to locate the search input field, enter the search query, and submit the search. In Cucumber, I would define scenarios for exact match, partial match, and no match, each with corresponding step definitions to execute the search and verify the results.
+
+2. **Adding Product to Cart**:
+   - **Answer**: I would automate adding a product to the shopping cart by locating the product on the page, clicking on the "Add to Cart" button, and verifying that the product is added by checking the cart icon or the cart page contents. In Cucumber, I would define a scenario for adding a product to the cart and create step definitions to perform the actions and assertions.
+
+3. **Checkout Process**:
+   - **Answer**: To automate the checkout process, I would use Selenium to navigate through the checkout steps, entering shipping details, selecting payment method, and completing the purchase. In Cucumber, I would define scenarios for different checkout flows (e.g., guest checkout, registered user checkout) and create step definitions to handle each step of the process.
+
+4. **Wishlist Functionality**:
+   - **Answer**: I would automate testing the wishlist feature by locating the product, adding it to the wishlist, and verifying that it appears in the wishlist section. In Cucumber, I would define scenarios for adding and viewing products in the wishlist and create step definitions to interact with the wishlist functionality and verify the results.
+
+5. **Navigation through Categories**:
+   - **Answer**: To automate navigating through categories and subcategories, I would use Selenium to click on the desired category links and verify that the correct products are displayed. In Cucumber, I would define scenarios for navigating through different categories and create step definitions to handle the navigation and verification.
+
+6. **Sorting Functionality**:
+   - **Answer**: I would automate testing the sorting functionality by selecting different sorting options and verifying that the products are displayed in the correct order. In Cucumber, I would define scenarios for each sorting option and create step definitions to select the sorting option and verify the order of products.
+
+7. **Product Comparison Feature**:
+   - **Answer**: To automate testing the product comparison feature, I would select multiple products, add them to the comparison list, and verify that the comparison page displays the selected products. In Cucumber, I would define scenarios for adding products to the comparison list and create step definitions to handle the actions and assertions related to product comparison.
+
+These answers demonstrate how to approach automating various scenarios on an eCommerce website using Java, Selenium, and Cucumber. They emphasize the use of Selenium for browser automation and Cucumber for defining and executing test scenarios in a behavior-driven development (BDD) style.

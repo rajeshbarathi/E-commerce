@@ -1,0 +1,69 @@
+Feature: Report Navigation
+
+  Scenario: Verify user lands on Report Dashboard and sees generated report results screen
+    Given the user is logged in
+    When the user clicks on Reports in Navigation pane
+    Then the user lands on Report Dashboard
+    And the user sees the generated report results screen
+
+  Scenario: Verify user lands on Report Dashboard and sees My report results screen
+    Given the user is logged in
+    When the user clicks on Reports in Navigation pane
+    Then the user lands on Report Dashboard
+    And the user sees the My report results screen
+
+  Scenario: Verify user can see the other report results screen
+    Given the user is logged in
+    When the user clicks on Reports in Navigation pane
+    Then the user lands on Report Dashboard
+    When the user clicks on other report tab
+    Then the user sees the other report results screen
+
+  Scenario: Verify user can see the scheduled report results screen
+    Given the user is logged in
+    When the user clicks on Reports in Navigation pane
+    Then the user lands on Report Dashboard
+    When the user clicks on scheduled report tab
+    Then the user sees the scheduled report results screen
+
+  Scenario: Verify user can see the saved report results screen
+    Given the user is logged in
+    When the user clicks on Reports in Navigation pane
+    Then the user lands on Report Dashboard
+    When the user clicks on saved report tab
+    Then the user sees the saved report results screen
+
+  Scenario: Verify user can navigate from saved report tab to My report tab
+    Given the user is logged in
+    When the user clicks on Reports in Navigation pane
+    Then the user lands on Report Dashboard
+    When the user clicks on saved report tab
+    Then the user sees the saved report results screen
+    When the user clicks on my report tab
+    Then the user sees the my report results screen
+
+  Scenario: Verify user can navigate from saved report tab to other report tab
+    Given the user is logged in
+    When the user clicks on Reports in Navigation pane
+    Then the user lands on Report Dashboard
+    When the user clicks on saved report tab
+    Then the user sees the saved report results screen
+    When the user clicks on other report tab
+    Then the user sees the other report results screen
+
+  Scenario: Verify user can see the My Bookmarked Reports grid results
+    Given the user is logged in
+    When the user clicks on Reports in Navigation pane
+    Then the user lands on Report Dashboard
+    When the user clicks on the bookmark icon in the top right of the screen
+    Then the user sees the My Bookmarked Reports grid results
+
+  Scenario: Verify user can filter data in the My Bookmarked Reports grid results
+    Given the user is logged in
+    When the user clicks on Reports in Navigation pane
+    Then the user lands on Report Dashboard
+    When the user clicks on the bookmark icon in the top right of the screen
+    Then the user sees the My Bookmarked Reports grid results
+    When the user clicks on Filter report dropdown
+    And the user clicks on any dropdown label
+    Then the user sees the filtered data in the results screen

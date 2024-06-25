@@ -1,0 +1,101 @@
+Feature: Report Actions
+
+  Scenario: Export report data in different formats (TC3)
+    Given User is logged in
+    When User navigates to Reports and clicks on Reports in Navigation pane
+    And User lands on Report Dashboard
+    And User clicks on download icon in the grid
+    Then User can choose the available formats to export the data
+
+  Scenario: Delete report from My report results screen (TC4)
+    Given User is logged in
+    When User navigates to Reports and clicks on Reports in Navigation pane
+    And User lands on Report Dashboard
+    And User clicks on My report tab
+    And User clicks on any checkbox in the grid
+    And User clicks on Delete report in the snackbar
+    Then Snackbar displays with the success message "Selected records are deleted"
+
+  Scenario: Delete report from other report results screen (TC6)
+    Given User is logged in
+    When User navigates to Reports and clicks on Reports in Navigation pane
+    And User lands on Report Dashboard
+    And User clicks on other report tab
+    And User clicks on any checkbox in the grid
+    And User clicks on Delete report in the snackbar
+    Then Snackbar displays with the success message "Selected records are deleted"
+
+  Scenario: Bookmark a report (TC7)
+    Given User is logged in
+    When User navigates to Reports and clicks on Reports in Navigation pane
+    And User lands on Report Dashboard
+    And User can see the My report results screen
+    And User clicks on bookmark icon in the grid
+    Then Snackbar displays with the success message "Icon color changes to blue from white"
+
+  Scenario: Filter saved reports (TC12)
+    Given User is logged in
+    When User navigates to Reports and clicks on Reports in Navigation pane
+    And User lands on Report Dashboard
+    And User clicks on saved report tab
+    And User lands on saved report results screen
+    And User clicks on Filter report dropdown
+    And User clicks on any dropdown label
+    Then User can see the filtered data in the results screen
+
+  Scenario: Delete report from scheduled report results screen (TC13)
+    Given User is logged in
+    When User navigates to Reports and clicks on Reports in Navigation pane
+    And User lands on Report Dashboard
+    And User clicks on Scheduled report tab
+    And User can see the scheduled report results screen
+    And User clicks on any checkbox in the grid
+    And User clicks on Delete report in the snackbar
+    Then Snackbar displays with the success message "Selected records are deleted"
+
+  Scenario: Delete report from saved report results screen (TC14)
+    Given User is logged in
+    When User navigates to Reports and clicks on Reports in Navigation pane
+    And User lands on Report Dashboard
+    And User clicks on Saved report tab
+    And User can see the saved report results screen
+    And User clicks on any checkbox in the grid
+    And User clicks on Delete report in the snackbar
+    Then Snackbar displays with the success message "Selected records are deleted"
+
+  Scenario: Delete report from other report tab (TC15)
+    Given User is logged in
+    When User navigates to Reports and clicks on Reports in Navigation pane
+    And User lands on Report Dashboard
+    And User clicks on Other report tab
+    And User can see the other report results screen
+    And User clicks on any checkbox in the grid
+    And User clicks on Delete report in the snackbar
+    Then Snackbar displays with the success message "Selected records are deleted"
+
+  Scenario: Bookmark a report from organize list (TC21)
+    Given User is logged in
+    When User navigates to Reports and clicks on Reports in Navigation pane
+    And User lands on Report Dashboard
+    And User clicks on Saved report tab
+    And User can see the saved report results screen
+    And User clicks on organize list link in the grid header
+    And User can see the organize list grid results
+    And User clicks on bookmark icon in the grid
+    Then Snackbar displays with the success message "Icon color changes to blue from white"
+
+  Scenario: Bookmark a report directly from saved report results screen (TC22)
+    Given User is logged in
+    When User navigates to Reports and clicks on Reports in Navigation pane
+    And User lands on Report Dashboard
+    And User clicks on Saved report tab
+    And User can see the saved report results screen
+    And User clicks on bookmark icon in the grid
+    Then Snackbar displays with the success message "Icon color changes to blue from white"
+
+  Scenario: Bookmark a report from bookmarked reports grid (TC25)
+    Given User is logged in
+    When User navigates to Reports and clicks on Reports in Navigation pane
+    And User lands on Report Dashboard
+    And User clicks on bookmark icon in the top right of the screen
+    Then User can see the My Bookmarked Reports grid results

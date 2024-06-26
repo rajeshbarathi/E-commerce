@@ -1,0 +1,151 @@
+Feature: Report Management
+
+  Scenario: Verify user can organize a list from saved report results screen and navigate to other report tab
+    Given User is logged in
+    When User navigates to My Reports
+    And User selects a report from the list
+    And User clicks Organize button
+    And User selects multiple reports to organize
+    And User clicks Organize button
+    And User clicks Other Reports tab
+    Then User verifies the list is organized
+
+  Scenario: Verify user can organize a list and navigate back to My report tab
+    Given User is logged in
+    When User navigates to My Reports
+    And User selects a report from the list
+    And User clicks Organize button
+    And User selects multiple reports to organize
+    And User clicks Organize button
+    And User clicks My Reports tab
+    Then User verifies the list is organized
+
+  Scenario: Verify user can organize a list and navigate to other report tab
+    Given User is logged in
+    When User navigates to My Reports
+    And User selects a report from the list
+    And User clicks Organize button
+    And User selects multiple reports to organize
+    And User clicks Organize button
+    And User clicks Other Reports tab
+    Then User verifies the list is organized
+
+  Scenario: Verify user can organize a list and update the list
+    Given User is logged in
+    When User navigates to My Reports
+    And User selects a report from the list
+    And User clicks Organize button
+    And User selects multiple reports to organize
+    And User clicks Organize button
+    And User updates the list
+    Then User verifies the list is updated
+
+  Scenario: Verify user can update a scheduled report
+    Given User is logged in
+    When User navigates to Scheduled Reports
+    And User selects a scheduled report from the list
+    And User updates the scheduled report details
+    And User saves the changes
+    Then User verifies the scheduled report is updated
+
+  Scenario: Verify user can modify criteria of a scheduled report
+    Given User is logged in
+    When User navigates to Scheduled Reports
+    And User selects a scheduled report from the list
+    And User modifies the criteria of the scheduled report
+    And User saves the changes
+    Then User verifies the criteria are modified
+
+  Scenario: Verify user can run a saved report
+    Given User is logged in
+    When User navigates to My Reports
+    And User selects a saved report from the list
+    And User clicks Run button
+    Then User verifies the report is run successfully
+
+  Scenario: Verify user can modify criteria of a saved report
+    Given User is logged in
+    When User navigates to My Reports
+    And User selects a saved report from the list
+    And User modifies the criteria of the saved report
+    And User saves the changes
+    Then User verifies the criteria are modified
+
+  Scenario: Verify user can run an other report
+    Given User is logged in
+    When User navigates to Other Reports
+    And User selects an other report from the list
+    And User clicks Run button
+    Then User verifies the report is run successfully
+
+  Scenario: Verify user can modify criteria of an other report
+    Given User is logged in
+    When User navigates to Other Reports
+    And User selects an other report from the list
+    And User modifies the criteria of the other report
+    And User saves the changes
+    Then User verifies the criteria are modified
+
+  Scenario: Verify user can copy criteria of an other report
+    Given User is logged in
+    When User navigates to Other Reports
+    And User selects an other report from the list
+    And User copies the criteria of the other report
+    And User saves the changes
+    Then User verifies the criteria are copied
+
+  Scenario: Verify user can run a report from organize list and My report tab
+    Given User is logged in
+    When User navigates to My Reports
+    And User selects a report from the organize list
+    And User clicks Run button
+    Then User verifies the report is run successfully
+
+  Scenario: Verify user can modify criteria and schedule a report
+    Given User is logged in
+    When User navigates to My Reports
+    And User selects a report from the list
+    And User modifies the criteria of the report
+    And User clicks Schedule button
+    And User enters values in the schedule page
+    And User selects frequency and applies settings
+    And User selects email distribution list and confirms
+    And User clicks Schedule button
+    Then Snackbar displays success message
+
+  Scenario: Verify user can run an other report from organize list
+    Given User is logged in
+    When User navigates to Other Reports
+    And User selects an other report from the organize list
+    And User clicks Run button
+    Then User verifies the report is run successfully
+
+  Scenario: Verify user can modify criteria of an other report from organize list
+    Given User is logged in
+    When User navigates to Other Reports
+    And User selects an other report from the organize list
+    And User modifies the criteria of the other report
+    And User saves the changes
+    Then User verifies the criteria are modified
+
+  Scenario: Verify user can copy criteria of an other report from organize list
+    Given User is logged in
+    When User navigates to Other Reports
+    And User selects an other report from the organize list
+    And User copies the criteria of the other report
+    And User saves the changes
+    Then User verifies the criteria are copied
+
+  Scenario: Verify user can create a distribution list for a report
+    Given User is logged in
+    When User navigates to Scheduled Reports
+    And User selects a scheduled report from the list
+    And User creates a distribution list for the report
+    Then User verifies the distribution list is created
+
+  Scenario: Verify user can save a distribution list for a report
+    Given User is logged in
+    When User navigates to Scheduled Reports
+    And User selects a scheduled report from the list
+    And User saves a distribution list for the report
+    Then User verifies the distribution list is saved

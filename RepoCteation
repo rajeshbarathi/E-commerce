@@ -1,0 +1,88 @@
+Feature: Report Creation
+
+  Scenario: Verify user can create a new standard report
+    Given User is logged in
+    When User clicks on New Report
+    And User selects customer from customer dropdown
+    And User selects standard report from left panel
+    And User selects a report from the list
+    And User clicks Next button
+    And User enters the report title and selects available fields
+    And User clicks Run button
+    Then Snackbar displays success message
+
+  Scenario: Verify user can create a new template report
+    Given User is logged in
+    When User clicks on New Report
+    And User selects customer from customer dropdown
+    And User selects template report from left panel
+    And User selects a report from the list
+    And User clicks Next button
+    And User enters the report title and selects available fields
+    And User clicks Run button
+    Then Snackbar displays success message
+
+  Scenario: Verify user can schedule a new standard report
+    Given User is logged in
+    When User clicks on New Report
+    And User selects customer from customer dropdown
+    And User selects standard report from left panel
+    And User selects a report from the list
+    And User clicks Next button
+    And User enters the report title and selects available fields
+    And User clicks Schedule button
+    And User enters values in the schedule page
+    And User selects frequency and applies settings
+    And User selects email distribution list and confirms
+    And User clicks Schedule button
+    Then Snackbar displays success message
+
+  Scenario: Verify user can schedule a new template report
+    Given User is logged in
+    When User clicks on New Report
+    And User selects customer from customer dropdown
+    And User selects template report from left panel
+    And User selects a report from the list
+    And User clicks Next button
+    And User enters the report title and selects available fields
+    And User clicks Schedule button
+    And User enters values in the schedule page
+    And User selects frequency and applies settings
+    And User selects email distribution list and confirms
+    And User clicks Schedule button
+    Then Snackbar displays success message
+
+  Scenario: Verify user can save a preset for a new standard report
+    Given User is logged in
+    When User clicks on New Report
+    And User selects customer from customer dropdown
+    And User selects standard report from left panel
+    And User selects a report from the list
+    And User clicks Next button
+    And User enters the report title and selects available fields
+    And User clicks Saved Search
+    And User enters a value in the search bar and saves preset
+    Then Snackbar displays success message
+
+  Scenario: Verify user can choose and view a saved preset
+    Given User is logged in
+    When User clicks on New Report
+    And User selects customer from customer dropdown
+    And User selects standard report from left panel
+    And User selects a report from the list
+    And User clicks Next button
+    And User clicks Choose Saved Search
+    And User selects a saved preset
+    Then User views the saved data
+
+  Scenario: Verify user can choose and delete a saved preset
+    Given User is logged in
+    When User clicks on New Report
+    And User selects customer from customer dropdown
+    And User selects standard report from left panel
+    And User selects a report from the list
+    And User clicks Next button
+    And User clicks Choose Saved Search
+    And User selects a saved preset
+    And User clicks Delete button
+    Then Snackbar displays success message

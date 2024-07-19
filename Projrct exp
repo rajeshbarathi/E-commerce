@@ -1,0 +1,42 @@
+Here are the detailed roles and responsibilities for each project:
+
+---
+
+**Project 1: Retail & Telecom Domain (2 years)**  
+As a fresher, I joined this project and quickly acclimated to the fundamentals of software testing. My responsibilities included:
+- Learning and implementing manual testing techniques.
+- Understanding and applying the Software Development Life Cycle (SDLC) and Software Testing Life Cycle (STLC).
+- Executing test cases, reporting bugs, and collaborating with developers to resolve issues.
+- Gaining a strong foundation in test documentation, including test plans, test cases, and test scripts.
+- Performing regression testing and ensuring the quality of the software before release.
+
+**Project 2: E-commerce Company (3.6 years)**  
+In this project, I transitioned into automation testing and honed my skills with advanced tools and methodologies. My key responsibilities included:
+- Developing and executing automated test scripts using frameworks such as BDD Cucumber and TestNG.
+- Learning and applying Java programming to enhance test automation.
+- Performing end-to-end testing to ensure comprehensive coverage of application functionalities.
+- Collaborating with cross-functional teams to integrate automated tests into the CI/CD pipeline.
+- Ensuring the reliability and maintainability of the test automation framework.
+- Mentoring junior testers and providing guidance on best practices in automation testing.
+
+**Project 3: Logistics (10 months)**  
+In this project, I took on the challenge of creating a testing framework from scratch. My responsibilities were:
+- Designing and developing a robust test automation framework tailored to the project needs.
+- Implementing data-driven testing to enhance test coverage and flexibility.
+- Utilizing Java annotations to improve the efficiency and readability of test scripts.
+- Performing continuous integration and delivery by integrating the framework with CI tools.
+- Conducting thorough testing and validation of logistics applications to ensure their reliability and performance.
+- Documenting the framework and providing training to the team for effective usage and maintenance.
+
+**Project 4: Logistics**  
+In this project, I further refined my skills in automation and CI/CD pipelines. My responsibilities included:
+- Implementing BDD Cucumber with data-driven testing to create a scalable and maintainable test framework.
+- Setting up and configuring CI/CD pipelines in Azure DevOps to streamline the build, test, and deployment process.
+- Managing code repositories in Azure Repos and ensuring efficient version control and collaboration.
+- Developing a modular framework to promote reusability and reduce redundancy in test scripts.
+- Conducting regular code reviews and ensuring adherence to coding standards and best practices.
+- Collaborating with the development and operations teams to ensure seamless integration and delivery of high-quality software.
+
+---
+
+These detailed descriptions should provide a comprehensive overview of your roles and responsibilities across different projects, highlighting your growth and expertise in software testing and automation.

@@ -1,0 +1,23 @@
+1. E-commerce Project 1 (2 years)
+
+	1.	Developed and maintained end-to-end automation frameworks using Java, Selenium, and TestNG.
+	2.	Implemented BDD with Cucumber to enhance readability and maintainability of test cases.
+	3.	Integrated automated tests with Jenkins for continuous integration and delivery.
+	4.	Utilized GitHub for version control and collaborated on code reviews and repository management.
+	5.	Created comprehensive test reports and tracked defects using Jira.
+
+2. E-commerce Project 2 (1.6 years)
+
+	1.	Enhanced existing automation frameworks by incorporating advanced Selenium techniques and Java libraries.
+	2.	Employed data-driven testing approaches to increase test coverage and flexibility.
+	3.	Automated regression and smoke tests, significantly reducing manual testing efforts.
+	4.	Managed test execution pipelines using Azure DevOps, ensuring smooth CI/CD processes.
+	5.	Collaborated with cross-functional teams to align testing strategies with business requirements.
+
+3. Logistics Project (10 months)
+
+	1.	Designed and implemented a new automation framework from scratch, focusing on modularity and reusability.
+	2.	Integrated BDD Cucumber with data-driven testing to handle complex scenarios efficiently.
+	3.	Developed and maintained Page Object Model (POM) using Selenium PageFactory for better test maintenance.
+	4.	Set up and managed CI/CD pipelines in Azure DevOps, ensuring consistent deployment and testing.
+	5.	Utilized GitLab for version control and CI/CD pipeline management, streamlining development processes.

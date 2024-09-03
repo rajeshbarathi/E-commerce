@@ -9,10 +9,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class ExcelReader {
+    private XSSFWorkbook workbook;
 
-    private Workbook workbook;
-
-    // Constructor to load the Excel file
     public ExcelReader(String filePath) {
         try {
             FileInputStream file = new FileInputStream(new File(filePath));
@@ -23,16 +21,13 @@ public class ExcelReader {
         }
     }
 
-    // Method to get data based on the scenario name
     public Map<String, String> getData(String scenarioName) {
         String sheetName = determineSheetName(scenarioName);
         return getDataFromSheet(sheetName, scenarioName);
     }
 
-    // Determine the sheet name based on the scenario name
     private String determineSheetName(String scenarioName) {
         for (Sheet sheet : workbook) {
-            // Check if this sheet contains the scenario name
             if (sheetContainsScenario(sheet, scenarioName)) {
                 return sheet.getSheetName();
             }
@@ -40,12 +35,14 @@ public class ExcelReader {
         throw new RuntimeException("Scenario '" + scenarioName + "' not found in any sheet.");
     }
 
-    // Check if a given sheet contains the scenario name
     private boolean sheetContainsScenario(Sheet sheet, String scenarioName) {
-        Iterator<Row> rowIterator = sheet.iterator();
-        while (rowIterator.hasNext()) {
-            Row row = rowIterator.next();
-            Cell cell = row.getCell(0); // Assuming the scenario name is in the first column
+        int scenarioColumnIndex = getScenarioColumnIndex(sheet);
+        if (scenarioColumnIndex == -1) {
+            return false;
+        }
+        
+        for (Row row : sheet) {
+            Cell cell = row.getCell(scenarioColumnIndex);
             if (cell != null && cell.getCellType() == CellType.STRING) {
                 if (cell.getStringCellValue().equalsIgnoreCase(scenarioName)) {
                     return true;
@@ -55,20 +52,34 @@ public class ExcelReader {
         return false;
     }
 
-    // Retrieve the data for the given scenario from the specified sheet
+    private int getScenarioColumnIndex(Sheet sheet) {
+        Row headerRow = sheet.getRow(0);
+        if (headerRow == null) {
+            throw new RuntimeException("Header row not found in sheet: " + sheet.getSheetName());
+        }
+
+        for (Cell cell : headerRow) {
+            if (cell.getCellType() == CellType.STRING && cell.getStringCellValue().equalsIgnoreCase("scenario")) {
+                return cell.getColumnIndex();
+            }
+        }
+
+        throw new RuntimeException("Scenario column not found in sheet: " + sheet.getSheetName());
+    }
+
     private Map<String, String> getDataFromSheet(String sheetName, String scenarioName) {
         Sheet sheet = workbook.getSheet(sheetName);
         Map<String, String> data = new HashMap<>();
+        int scenarioColumnIndex = getScenarioColumnIndex(sheet);
 
         boolean scenarioFound = false;
-
         for (Row row : sheet) {
-            Cell firstCell = row.getCell(0);
-            if (firstCell != null && firstCell.getCellType() == CellType.STRING && firstCell.getStringCellValue().equalsIgnoreCase(scenarioName)) {
+            Cell cell = row.getCell(scenarioColumnIndex);
+            if (cell != null && cell.getCellType() == CellType.STRING && cell.getStringCellValue().equalsIgnoreCase(scenarioName)) {
                 scenarioFound = true;
-                for (Cell cell : row) {
-                    String header = sheet.getRow(0).getCell(cell.getColumnIndex()).getStringCellValue();
-                    String value = getCellValue(cell);
+                for (Cell headerCell : sheet.getRow(0)) {
+                    String header = headerCell.getStringCellValue();
+                    String value = getCellValue(row.getCell(headerCell.getColumnIndex()));
                     data.put(header, value);
                 }
                 break;
@@ -82,8 +93,11 @@ public class ExcelReader {
         return data;
     }
 
-    // Utility method to retrieve the value from a cell as a string
     private String getCellValue(Cell cell) {
+        if (cell == null) {
+            return "";
+        }
+
         switch (cell.getCellType()) {
             case STRING:
                 return cell.getStringCellValue();

@@ -1,0 +1,60 @@
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ExcelReader {
+
+    private Map<String, Map<String, Map<String, String>>> dataMap = new HashMap<>();
+
+    public ExcelReader(String excelFilePath) {
+        loadExcelData(excelFilePath);
+    }
+
+    private void loadExcelData(String excelFilePath) {
+        try (FileInputStream fis = new FileInputStream(excelFilePath)) {
+            Workbook workbook = WorkbookFactory.create(fis);
+
+            // Iterate through all sheets (modules)
+            for (Sheet sheet : workbook) {
+                String sheetName = sheet.getSheetName();
+                Map<String, Map<String, String>> sheetData = new HashMap<>();
+
+                for (Row row : sheet) {
+                    if (row.getRowNum() == 0) {
+                        continue; // Skip header row
+                    }
+
+                    String scenarioName = row.getCell(1).getStringCellValue(); // Assuming Scenario Name is in the second column
+                    Map<String, String> rowData = new HashMap<>();
+
+                    for (int i = 2; i < row.getLastCellNum(); i++) { // Start from the third column
+                        String header = sheet.getRow(0).getCell(i).getStringCellValue(); // Get column header
+                        String value = row.getCell(i).getStringCellValue();
+                        rowData.put(header, value);
+                    }
+
+                    sheetData.put(scenarioName, rowData);
+                }
+
+                dataMap.put(sheetName, sheetData);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Map<String, String> getData(String sheetName, String scenarioName) {
+        Map<String, Map<String, String>> sheetData = dataMap.get(sheetName);
+        if (sheetData != null) {
+            return sheetData.get(scenarioName);
+        } else {
+            throw new RuntimeException("Sheet name '" + sheetName + "' not found in Excel file.");
+        }
+    }
+}

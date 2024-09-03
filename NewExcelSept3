@@ -1,7 +1,5 @@
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,52 +7,79 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ExcelReader {
+    private XSSFWorkbook workbook;
 
-    private Map<String, Map<String, Map<String, String>>> dataMap = new HashMap<>();
-
-    public ExcelReader(String excelFilePath) {
-        loadExcelData(excelFilePath);
-    }
-
-    private void loadExcelData(String excelFilePath) {
-        try (FileInputStream fis = new FileInputStream(excelFilePath)) {
-            Workbook workbook = WorkbookFactory.create(fis);
-
-            // Iterate through all sheets (modules)
-            for (Sheet sheet : workbook) {
-                String sheetName = sheet.getSheetName();
-                Map<String, Map<String, String>> sheetData = new HashMap<>();
-
-                for (Row row : sheet) {
-                    if (row.getRowNum() == 0) {
-                        continue; // Skip header row
-                    }
-
-                    String scenarioName = row.getCell(1).getStringCellValue(); // Assuming Scenario Name is in the second column
-                    Map<String, String> rowData = new HashMap<>();
-
-                    for (int i = 2; i < row.getLastCellNum(); i++) { // Start from the third column
-                        String header = sheet.getRow(0).getCell(i).getStringCellValue(); // Get column header
-                        String value = row.getCell(i).getStringCellValue();
-                        rowData.put(header, value);
-                    }
-
-                    sheetData.put(scenarioName, rowData);
-                }
-
-                dataMap.put(sheetName, sheetData);
-            }
+    public ExcelReader(String filePath) {
+        try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
+            this.workbook = new XSSFWorkbook(fileInputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public Map<String, String> getData(String sheetName, String scenarioName) {
-        Map<String, Map<String, String>> sheetData = dataMap.get(sheetName);
-        if (sheetData != null) {
-            return sheetData.get(scenarioName);
-        } else {
-            throw new RuntimeException("Sheet name '" + sheetName + "' not found in Excel file.");
+        Map<String, String> dataMap = new HashMap<>();
+        Sheet sheet = workbook.getSheet(sheetName);
+
+        if (sheet == null) {
+            throw new RuntimeException("Sheet with name " + sheetName + " not found");
+        }
+
+        Row headerRow = sheet.getRow(0);
+        if (headerRow == null) {
+            throw new RuntimeException("Header row not found in sheet: " + sheetName);
+        }
+
+        int scenarioColumn = -1;
+        for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
+            String cellValue = getCellValue(headerRow.getCell(i));
+            if (cellValue.equalsIgnoreCase("scenario")) {
+                scenarioColumn = i;
+                break;
+            }
+        }
+
+        if (scenarioColumn == -1) {
+            throw new RuntimeException("Scenario column not found in sheet: " + sheetName);
+        }
+
+        for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+            Row row = sheet.getRow(rowIndex);
+            if (row == null) continue;
+
+            Cell scenarioCell = row.getCell(scenarioColumn);
+            if (scenarioCell != null && getCellValue(scenarioCell).equalsIgnoreCase(scenarioName)) {
+                for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
+                    String header = getCellValue(headerRow.getCell(i));
+                    String value = getCellValue(row.getCell(i));
+                    dataMap.put(header, value);
+                }
+                break;
+            }
+        }
+
+        if (dataMap.isEmpty()) {
+            throw new RuntimeException("Scenario: " + scenarioName + " not found in sheet: " + sheetName);
+        }
+
+        return dataMap;
+    }
+
+    private String getCellValue(Cell cell) {
+        if (cell == null) {
+            return ""; // Return an empty string if the cell is null
+        }
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue().trim();
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:
+                return cell.getCellFormula();
+            default:
+                return ""; // Return an empty string for other cell types
         }
     }
 }

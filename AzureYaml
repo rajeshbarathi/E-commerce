@@ -1,42 +1,76 @@
 pool:
   name: USAZNPPOOL
-  demands:
-    - maven
+  demands: maven
 
 trigger:
-  branches:
-    exclude:
-      - '*'
+  - none
 
 resources:
   repositories:
-    - repository: Azure-Master-Templates
+    repository: Azure-Master-Templates
       type: git
       name: Azure-Master-Templates/Azure-Master-Templates
       ref: refs/heads/backend-master-template
-
-    - repository: vna-services-manifest
+    repository: vna-services-manifest
       name: VNA-Services/vna-services-manifest
       ref: refs/heads/develop
 
+parameters:
+  330nDsz: 1caxget
+  pusputrach: 1cazget
+
+# Main steps
 steps:
+
+# 1. Maven build and test execution
+- task: Maven@3
+  inputs:
+    goals: 'clean test'
+    options: '-Dtest=RunnerClass'  # Ensure this is your runner class
+    mavenPomFile: 'pom.xml'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+
+# 2. Copy default Cucumber report
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'target'  # Path where Cucumber default report is stored
+    Contents: '**/*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/CucumberReport'
+
+# 3. Copy Extent Spark report
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'test-output'  # Path where Extent Spark is stored
+    Contents: 'spark.html'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/ExtentSpark'
+
+# 4. Copy Extent PDF report
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'test-output'  # Path where Extent PDF is stored
+    Contents: '*.pdf'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/ExtentPDF'
+
+# 5. Publish Cucumber Report as artifact
+- publish: $(Build.ArtifactStagingDirectory)/CucumberReport
+  artifact: CucumberReport
+
+# 6. Publish Extent Spark Report as artifact
+- publish: $(Build.ArtifactStagingDirectory)/ExtentSpark
+  artifact: ExtentSpark
+
+# 7. Publish Extent PDF Report as artifact
+- publish: $(Build.ArtifactStagingDirectory)/ExtentPDF
+  artifact: ExtentPDF
+
+# ChromeDriver options for headless execution
 - script: |
-    # Update package list and install prerequisites
-    sudo apt-get update
-    sudo apt-get install -y wget gnupg
-
-    # Download and install Google Chrome
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    sudo apt install -y ./google-chrome-stable_current_amd64.deb
-
-    # Optional: Install additional dependencies for Chrome (if required)
-    sudo apt-get install -y libnss3 libgconf-2-4
-
-    # Verify Chrome installation
-    google-chrome --version
-  displayName: 'Install and Verify Google Chrome'
-
-- script: |
-    # Run Maven tests
-    mvn clean test
-  displayName: 'Run Maven Tests'
+    echo "Setting up ChromeDriver options"
+    export MAVEN_OPTS="-Dwebdriver.chrome.driver=$(Build.SourcesDirectory)/drivers/chromedriver"
+    export CHROME_OPTIONS="--headless --disable-gpu --no-sandbox --disable-dev-shm-usage"
+    echo "Running tests"
+    mvn clean test -Dbrowser=chrome -Dchromeoptions=$CHROME_OPTIONS
+  displayName: 'Run Tests in Headless Chrome'

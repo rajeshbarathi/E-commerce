@@ -7,11 +7,11 @@ trigger:
 
 resources:
   repositories:
-    repository: Azure-Master-Templates
+    - repository: Azure-Master-Templates
       type: git
       name: Azure-Master-Templates/Azure-Master-Templates
       ref: refs/heads/backend-master-template
-    repository: vna-services-manifest
+    - repository: vna-services-manifest
       name: VNA-Services/vna-services-manifest
       ref: refs/heads/develop
 
@@ -19,58 +19,56 @@ parameters:
   330nDsz: 1caxget
   pusputrach: 1cazget
 
-# Main steps
 steps:
+  # Maven task to clean and run tests
+  - task: Maven@3
+    inputs:
+      goals: 'clean test'
+      options: '-Dtest=RunnerClass'
+      mavenPomFile: 'pom.xml'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.11'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
 
-# 1. Maven build and test execution
-- task: Maven@3
-  inputs:
-    goals: 'clean test'
-    options: '-Dtest=RunnerClass'  # Ensure this is your runner class
-    mavenPomFile: 'pom.xml'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+  # Copy Cucumber default report from target folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: 'target'
+      Contents: '**/*'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/CucumberReport'
 
-# 2. Copy default Cucumber report
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: 'target'  # Path where Cucumber default report is stored
-    Contents: '**/*'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/CucumberReport'
+  # Copy Extent Spark Report from test-output/SparkReport folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: 'test-output/SparkReport'
+      Contents: 'spark.html'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/ExtentSpark'
 
-# 3. Copy Extent Spark report
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: 'test-output'  # Path where Extent Spark is stored
-    Contents: 'spark.html'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/ExtentSpark'
+  # Copy Extent PDF Report from test-output/pdfReport folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: 'test-output/pdfReport'
+      Contents: '*.pdf'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/ExtentPDF'
 
-# 4. Copy Extent PDF report
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: 'test-output'  # Path where Extent PDF is stored
-    Contents: '*.pdf'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/ExtentPDF'
+  # Publish Cucumber default report as an artifact
+  - publish: $(Build.ArtifactStagingDirectory)/CucumberReport
+    artifact: CucumberReport
 
-# 5. Publish Cucumber Report as artifact
-- publish: $(Build.ArtifactStagingDirectory)/CucumberReport
-  artifact: CucumberReport
+  # Publish Extent Spark report as an artifact
+  - publish: $(Build.ArtifactStagingDirectory)/ExtentSpark
+    artifact: ExtentSpark
 
-# 6. Publish Extent Spark Report as artifact
-- publish: $(Build.ArtifactStagingDirectory)/ExtentSpark
-  artifact: ExtentSpark
+  # Publish Extent PDF report as an artifact
+  - publish: $(Build.ArtifactStagingDirectory)/ExtentPDF
+    artifact: ExtentPDF
 
-# 7. Publish Extent PDF Report as artifact
-- publish: $(Build.ArtifactStagingDirectory)/ExtentPDF
-  artifact: ExtentPDF
-
-# ChromeDriver options for headless execution
-- script: |
-    echo "Setting up ChromeDriver options"
-    export MAVEN_OPTS="-Dwebdriver.chrome.driver=$(Build.SourcesDirectory)/drivers/chromedriver"
-    export CHROME_OPTIONS="--headless --disable-gpu --no-sandbox --disable-dev-shm-usage"
-    echo "Running tests"
-    mvn clean test -Dbrowser=chrome -Dchromeoptions=$CHROME_OPTIONS
-  displayName: 'Run Tests in Headless Chrome'
+  # Setting up ChromeDriver options for headless execution
+  - script: |
+      echo "Setting up ChromeDriver options"
+      export MAVEN_OPTS="-Dwebdriver.chrome.driver=$(Build.SourcesDirectory)/drivers/chromedriver"
+      export CHROME_OPTIONS="--headless --disable-gpu --no-sandbox --disable-dev-shm-usage"
+      echo "Running tests"
+      mvn clean test -Dbrowser=chrome -Dchromeoptions=$CHROME_OPTIONS
+    displayName: 'Run Tests in Headless Chrome'

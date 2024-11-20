@@ -1,0 +1,136 @@
+Here is a test case document format based on the scenarios you provided:
+
+Test Case Document: Subscription Overview – Cancel and Resubscribe Buttons
+
+Project: Subscription Management System
+
+Module: My Account > Subscription Overview
+
+Prepared by: [Your Name]
+
+Date: [Current Date]
+
+Version: 1.0
+
+Test Case 1: Active Subscriber – Cancel Subscription Button
+
+Test Case ID	TC-001
+Test Case Title	Verify “Cancel Subscription” button is displayed for an active subscriber.
+Pre-condition	User is an active subscriber (DS status = “active”).
+Test Steps	1. Navigate to “My Account” > “Subscription Overview”.
+Expected Result	The “Cancel Subscription” button should be visible under the subscription details.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case ID	TC-002
+Test Case Title	Verify clicking “Cancel Subscription” button prompts a confirmation dialog.
+Pre-condition	User is an active subscriber (DS status = “active”).
+Test Steps	1. Click the “Cancel Subscription” button.
+Expected Result	A confirmation dialog should appear asking the user to confirm cancellation.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case ID	TC-003
+Test Case Title	Verify subscription is canceled upon confirmation of cancellation.
+Pre-condition	User is an active subscriber (DS status = “active”).
+Test Steps	1. Click the “Cancel Subscription” button.  2. Confirm cancellation in the dialog.
+Expected Result	Subscription is canceled, and the user receives a confirmation message.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case ID	TC-004
+Test Case Title	Verify subscription status updates to “inactive” after cancellation.
+Pre-condition	User is an active subscriber (DS status = “active”).
+Test Steps	1. Cancel the subscription.  2. Check the subscription status.
+Expected Result	The subscription status should change to “inactive”.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case 2: Inactive Subscriber – Resubscribe Button
+
+Test Case ID	TC-005
+Test Case Title	Verify “Resubscribe” button is displayed for an inactive subscriber.
+Pre-condition	User is an inactive subscriber (DS status = “inactive”).
+Test Steps	1. Navigate to “My Account” > “Subscription Overview”.
+Expected Result	The “Resubscribe” button should be visible under the subscription details.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case ID	TC-006
+Test Case Title	Verify clicking “Resubscribe” button prompts a confirmation dialog.
+Pre-condition	User is an inactive subscriber (DS status = “inactive”).
+Test Steps	1. Click the “Resubscribe” button.
+Expected Result	A confirmation dialog should appear asking the user to confirm resubscription.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case ID	TC-007
+Test Case Title	Verify subscription is reactivated upon confirmation of resubscription.
+Pre-condition	User is an inactive subscriber (DS status = “inactive”).
+Test Steps	1. Click the “Resubscribe” button.  2. Confirm resubscription in the dialog.
+Expected Result	Subscription is reactivated, and the user receives a confirmation message.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case ID	TC-008
+Test Case Title	Verify subscription status updates to “active” after resubscription.
+Pre-condition	User is an inactive subscriber (DS status = “inactive”).
+Test Steps	1. Resubscribe to the subscription.  2. Check the subscription status.
+Expected Result	The subscription status should change to “active”.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case 3: Button Visibility and State Management
+
+Test Case ID	TC-009
+Test Case Title	Verify dynamic visibility of buttons based on subscription status.
+Pre-condition	User is either an active or inactive subscriber.
+Test Steps	1. Navigate to “My Account” > “Subscription Overview”.
+Expected Result	If the subscription is active, only the “Cancel Subscription” button should be visible. If the subscription is inactive, only the “Resubscribe” button should be visible.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case 4: Edge Cases
+
+Test Case ID	TC-010
+Test Case Title	Verify behavior when trying to cancel an already canceled subscription.
+Pre-condition	User is an inactive subscriber (DS status = “inactive”).
+Test Steps	1. Try to access the “Cancel Subscription” button.
+Expected Result	The “Cancel Subscription” button should not be visible. The “Resubscribe” button should be visible instead.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case ID	TC-011
+Test Case Title	Verify behavior when trying to resubscribe an already active subscription.
+Pre-condition	User is an active subscriber (DS status = “active”).
+Test Steps	1. Try to access the “Resubscribe” button.
+Expected Result	The “Resubscribe” button should not be visible. The “Cancel Subscription” button should be visible instead.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case 5: Notifications and Confirmation Messages
+
+Test Case ID	TC-012
+Test Case Title	Verify confirmation message is shown when canceling the subscription.
+Pre-condition	User is an active subscriber (DS status = “active”).
+Test Steps	1. Cancel the subscription.  2. Confirm the cancellation.
+Expected Result	A confirmation message should be shown confirming the cancellation.
+Actual Result	[To be filled after test execution]
+Pass/Fail	[Pass/Fail]
+Comments	[Any relevant comments]
+
+Test Case ID	TC-013
+Test Case Title	Verify confirmation message is shown when resubscribing.
+Pre-condition	User is an inactive subscriber (DS status = “inactive”).
+Test Steps	1. Resubscribe the subscription. 
